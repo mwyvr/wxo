@@ -1,2 +1,2 @@
-# wxeh
-Command line Canadian weather grabber
+# wxo
+Command line weather grabber
