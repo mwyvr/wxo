@@ -24,6 +24,7 @@ type WeatherClient interface {
 
 // SiteData provides a minimal, cross-provider view of weather data
 type SiteData struct {
+	Alerts         string // for now, a concatenation of alerts
 	Location       string // name
 	Timestamp      time.Time
 	Timezone       string

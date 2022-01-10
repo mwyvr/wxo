@@ -77,7 +77,9 @@ func (c *OpenWeatherMapClient) makeSiteData(r oneCallResponse) (*wxo.SiteData, e
 	for _, v := range r.Current.Weather {
 		conditions = append(conditions, strings.Title(v.Description))
 	}
-	sd.Condition = strings.Join(conditions, "/")
+	if len(conditions) > 0 {
+		sd.Condition = strings.Join(conditions, "/")
+	}
 
 	// Temperature
 	sd.Temp = r.Current.Temp
@@ -92,6 +94,16 @@ func (c *OpenWeatherMapClient) makeSiteData(r oneCallResponse) (*wxo.SiteData, e
 	sd.WindDegree = int(r.Current.WindDeg)
 	sd.WindDirection = wxo.DirectionFromDegree(sd.WindDegree, false)
 	sd.WindVane = wxo.ArrowFromOrdinal(sd.WindDirection)
+
+	// Alerts
+	alerts := []string{}
+	for _, v := range r.Alerts {
+		alerts = append(alerts, strings.Title(v.Event))
+	}
+	if len(alerts) > 0 {
+		sd.Alerts = strings.Join(alerts, "/")
+		sd.Alerts = "!" + sd.Alerts + "!"
+	}
 
 	// Location related
 	sd.Country = "" // not available in this api
