@@ -27,6 +27,15 @@ example for the Landes region in France at -lat 44.050505 -long -0.893669:
 
     !Moderate Rain-Flood Warning/Moderate Coa...! Overcast Clouds 10.5C ↗ENE 5.3km/h
 
+To the extent the provider offers multilingual responses, access your preferred
+language with the `-lang xx` flag.
+
+    # output example for Vielha, Spain
+    !Moderate Wind Warning/Moderate Avalanche...! Overcast Clouds 4.7C ↑N 12.3km/h
+    #  wxo -lat 42.701287 -long 0.793591 -lang es
+    es: !Moderate Wind Warning/Moderate Avalanche...! Nubes 4.7C ↑N 12.3km
+
+As you can see, alert text is not internationalized by the provider.
 
 ## Installation & Usage
 
@@ -48,7 +57,6 @@ until the new account's API keys are usable._
 
 * user configurable templates; you can use the output for other purposes.
 * override cache timeout (5 minutes); -force option
-* support for output in other languages.
 
 ## Current Data Sources 
 

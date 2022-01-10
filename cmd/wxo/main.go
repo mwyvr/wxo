@@ -12,7 +12,8 @@ import (
 
 var (
 	units     string = "metric"
-	lattitude float64
+	lang      string = "en"
+	latitude  float64
 	longitude float64
 	apiKey    string
 )
@@ -22,7 +23,8 @@ const apiKeyVarName = "WXO_APIKEY"
 func init() {
 	apiKey = os.Getenv(apiKeyVarName) // 12-factor(ish), eh?
 	flag.StringVar(&units, "units", units, "Units preference (metric, imperial, kelvin, scientific)")
-	flag.Float64Var(&lattitude, "lat", lattitude, "*Latitude of desired weather site")
+	flag.StringVar(&lang, "lang", lang, "Language preference (ISO 2 character codes)")
+	flag.Float64Var(&latitude, "lat", latitude, "*Latitude of desired weather site")
 	flag.Float64Var(&longitude, "long", longitude, "*Longitude of desired weather site")
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stdout,
@@ -77,7 +79,7 @@ func main() {
 		os.Exit(2)
 	}
 
-	client := owm.NewWeatherClient(apiKey, lattitude, longitude, units)
+	client := owm.NewWeatherClient(apiKey, latitude, longitude, units, lang)
 	wx, err := client.Fetch()
 	if err != nil {
 		fmt.Fprintln(os.Stdout, err)

@@ -26,9 +26,9 @@ type OpenWeatherMapClient struct {
 }
 
 // NewWeatherClient sets up an OpenWeatherMap.org api client
-func NewWeatherClient(appID string, lattitude float64, longitude float64, units string) *OpenWeatherMapClient {
+func NewWeatherClient(appID string, latitude float64, longitude float64, units string, lang string) *OpenWeatherMapClient {
 
-	lat := fmt.Sprintf("%f", lattitude)
+	lat := fmt.Sprintf("%f", latitude)
 	lon := fmt.Sprintf("%f", longitude)
 	v := url.Values{}
 	v.Set("appid", appID)                     // openweathermap.org free API key
@@ -36,6 +36,7 @@ func NewWeatherClient(appID string, lattitude float64, longitude float64, units 
 	v.Set("lat", lat)                         // lat required
 	v.Set("lon", lon)                         // lon required
 	v.Set("units", units)                     // owm optional parameter, defaults to kelvin if not supplied
+	v.Set("lang", lang)                       // owm optional, defaults to en
 	return &OpenWeatherMapClient{
 		uri:   baseURL + "?" + v.Encode(),
 		units: units,
