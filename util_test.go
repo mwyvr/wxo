@@ -21,6 +21,8 @@ func TestDirectionsFromDegrees(t *testing.T) {
 		{"W", 270, false, "W"},
 		{"W", 292, false, "WNW"},
 		{"N", 359, false, "N"},
+		{"N", -359, false, "ERR"},
+		{"N", -359, true, "ERR"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -28,6 +30,10 @@ func TestDirectionsFromDegrees(t *testing.T) {
 				t.Errorf("DirectionFromDegree() = %v, want %v", got, tt.want)
 			}
 		})
+	}
+	// check for panic with bad input
+	for i := -370; i < 400; i++ {
+		_ = wxo.DirectionFromDegree(i, false)
 	}
 }
 

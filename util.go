@@ -38,6 +38,9 @@ var directions = []point{
 // compass degrees
 func DirectionFromDegree(v int, asArrow bool) string {
 	val := float32(v)
+	if val < 0 {
+		return "ERR"
+	}
 	i := int((val + 11.25) / 22.5)
 	if asArrow {
 		return directions[i%16].arrow
@@ -48,6 +51,9 @@ func DirectionFromDegree(v int, asArrow bool) string {
 // Returns a direction arrow mapping on to N, E, S, W, NNE, etc
 // or "" if an unsupported value is provided.
 func ArrowFromOrdinal(ordinal string) string {
+	if ordinal == "ERR" {
+		return ""
+	}
 	ordinal = strings.ToUpper(ordinal)
 	for _, v := range directions {
 		if v.ordinal == ordinal {
