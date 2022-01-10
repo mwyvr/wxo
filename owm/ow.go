@@ -1,6 +1,7 @@
 package owm
 
 // Package owm provides a client for openweathermap.org's "one call" API
+// See https://openweathermap.org/api for details.
 
 import (
 	"encoding/json"
@@ -19,8 +20,6 @@ const baseURL = "https://api.openweathermap.org/data/2.5/onecall"
 var _ wxo.WeatherClient = (*OpenWeatherMapClient)(nil)
 
 // OpenWeatherMapClient represents a client to the OWM API.
-// Fields, in particular appID and uri, are not exported to avoid accidental
-// disclosure of secrets.
 type OpenWeatherMapClient struct {
 	uri   string
 	units string
@@ -29,14 +28,14 @@ type OpenWeatherMapClient struct {
 // NewWeatherClient sets up an OpenWeatherMap.org api client
 func NewWeatherClient(appID string, lattitude float64, longitude float64, units string) *OpenWeatherMapClient {
 
-	v := url.Values{}
-	v.Set("exclude", "minutely,hourly,daily") // we do nothing with that data
 	lat := fmt.Sprintf("%f", lattitude)
 	lon := fmt.Sprintf("%f", longitude)
-	v.Set("units", units)
-	v.Set("lat", lat) // lat, lon, appid are required parameters of the OWM API
-	v.Set("lon", lon)
-	v.Set("appid", appID)
+	v := url.Values{}
+	v.Set("appid", appID)                     // openweathermap.org free API key
+	v.Set("exclude", "minutely,hourly,daily") // we do nothing with that data
+	v.Set("lat", lat)                         // lat required
+	v.Set("lon", lon)                         // lon required
+	v.Set("units", units)                     // owm optional parameter, defaults to kelvin if not supplied
 	return &OpenWeatherMapClient{
 		uri:   baseURL + "?" + v.Encode(),
 		units: units,
@@ -96,6 +95,9 @@ func (c *OpenWeatherMapClient) makeSiteData(r oneCallResponse) (*wxo.SiteData, e
 	sd.WindVane = wxo.ArrowFromOrdinal(sd.WindDirection)
 
 	// Alerts
+	// Some jurisdictions may have long short "titles"; multiple alerts
+	// could cause overflow on status bar.
+	// TODO: Consider truncating.
 	alerts := []string{}
 	for _, v := range r.Alerts {
 		alerts = append(alerts, strings.Title(v.Event))
