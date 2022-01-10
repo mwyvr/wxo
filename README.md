@@ -25,7 +25,7 @@ Delivers (at this writing):
 
     Clear Sky 2.5C ↖NNW 3.2km/
 
-Required additional parameters include where you live or what to see weather
+Required parameters include where you live or what to see weather
 conditions for:
 
     -lat float
