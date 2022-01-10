@@ -3,21 +3,27 @@ Command line weather grabber
 
 **January 9, 2022: In release early, release often mode.**
 
-`wxo` provides a command line utility to retrieve current weather conditions and
-format them in a manner suitable for use in status bars for window managers like
+`wxo` provides a command line utility that retrieves current weather conditions for a given geography,
+formatting the results in a manner suitable for use in window manager status bars like
 `dwm`. Example output:
 
     Clear Sky 2.5C ↖NNW 3.2km/
+
+Coming soon: user configurable templates; you can use the output for other purposes.
 
 ## Usage
 
 You need a free account and API key from
 [OpenWeathermap.org](https://openweathermap.org/). It may take 5 - 30 minutes
 for the key to become active. You *must* provide the WXO_APIKEY environment
-variable - can be on the commend line, no need to edit your `.bashrc` or
-`.profile`. At that point:
+variable wither on the command line or as part of your permanent environment.
+At that point:
 
     $ WXO_APIKEY=yoursecretkey wxo -lat 49.123 -long -123.78
+
+Delivers (at this writing):
+
+    Clear Sky 2.5C ↖NNW 3.2km/
 
 Required additional parameters include where you live or what to see weather
 conditions for:
