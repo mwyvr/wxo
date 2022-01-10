@@ -8,24 +8,17 @@ import (
 	"time"
 )
 
-const DefaultCacheExpiry = 15 * 60 // 15 minutes or 96 remote requests per day
+var DefaultCacheExpiry int = 5 * 60 // 5 minutes or 288 remote requests per day
 const defaultFormat = "{{.Alerts}} {{.Condition}} {{printf \"%.1f\" .Temp}}{{.TempUnits}} {{.WindVane}}{{.WindDirection}} {{printf \"%.1f\" .WindSpeed}}{{.WindSpeedUnits}}"
 
-// TODO NOT USING THIS YET
-type WxoConfig struct {
-	CacheExpiry int
-	APIKey      string
-	Provider    WeatherClient
-}
-
-// TODO not used yet
+// WeatherClient provides a means to fetch from a provider a populated SiteData object.
 type WeatherClient interface {
 	Fetch() (*SiteData, error)
 }
 
 // SiteData provides a minimal, cross-provider view of weather data
 type SiteData struct {
-	Alerts         string // a concatenation of alerts
+	Alerts         string // a concatenation of alerts, possibly truncated
 	Location       string // name
 	Timestamp      time.Time
 	Timezone       string
@@ -57,7 +50,7 @@ func (s *SiteData) ExecuteTemplate(format string) {
 		fmt.Fprintf(os.Stdout, "%v", err)
 		// attempt to fall back
 		if format != defaultFormat {
-			t, err = template.New("wxo").Parse("ERR! Fallback: " + defaultFormat)
+			t, err = template.New("wxo").Parse("Template Error! Fallback: " + defaultFormat)
 			if err != nil {
 				fmt.Fprintf(os.Stdout, "%v", err)
 				return

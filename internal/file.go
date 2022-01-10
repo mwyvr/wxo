@@ -11,6 +11,8 @@ import (
 	"os"
 	"path"
 	"time"
+
+	"github.com/solutionroute/wxo"
 )
 
 func init() {
@@ -97,7 +99,7 @@ func isCacheFileExpired(filePath string) bool {
 	}
 	diff := time.Since(fi.ModTime())
 	// TODO make cache expiry configurable.
-	if diff.Seconds() >= (5 * 60) {
+	if diff.Seconds() >= (float64(wxo.DefaultCacheExpiry)) {
 		// delete the existing file
 		os.Remove(filePath)
 		return true
