@@ -22,7 +22,7 @@ permanent environment. Example:
 
     $ WXO_APIKEY=yoursecretkey wxo -lat 49.123 -long -123.78
 
-_Note: OWM informs new subscribers there may be delay (measured in minutes)
+_Note: OWM informs new subscribers there may be a short delay (measured in minutes)
 until the new account's API keys are usable._
 
 **Coming soon**: 
