@@ -42,7 +42,7 @@ func DirectionFromDegree(v int, asArrow bool) string {
 	if asArrow {
 		return directions[i%16].arrow
 	}
-	return directions[i%17].ordinal
+	return directions[i%16].ordinal
 }
 
 // Returns a direction arrow mapping on to N, E, S, W, NNE, etc

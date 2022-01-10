@@ -20,6 +20,7 @@ func TestDirectionsFromDegrees(t *testing.T) {
 		{"NE", 50, false, "NE"},
 		{"W", 270, false, "W"},
 		{"W", 292, false, "WNW"},
+		{"N", 359, false, "N"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
