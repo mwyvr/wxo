@@ -104,6 +104,10 @@ func (c *OpenWeatherMapClient) makeSiteData(r oneCallResponse) (*wxo.SiteData, e
 	}
 	if len(alerts) > 0 {
 		sd.Alerts = strings.Join(alerts, "/")
+		if len(sd.Alerts) > 40 {
+			sd.Alerts = wxo.TruncateWebString(sd.Alerts, 40)
+			sd.Alerts = sd.Alerts + "..."
+		}
 		sd.Alerts = "!" + sd.Alerts + "!"
 	}
 

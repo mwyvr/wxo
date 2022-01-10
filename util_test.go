@@ -48,3 +48,28 @@ func TestArrowFromOrdinal(t *testing.T) {
 		})
 	}
 }
+
+func TestTruncateWebString(t *testing.T) {
+	type args struct {
+		s      string
+		length int
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		// TODO: Add test cases.
+		{"nil string", args{"", 10}, ""},
+		{"no truncate", args{"0123456789", 10}, "0123456789"},
+		{"truncate at 5", args{"0123456789", 6}, "012345"},
+		{"rune at pos 10", args{"012345678界", 10}, "012345678界"}, // len() would report 13 bytes
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := wxo.TruncateWebString(tt.args.s, tt.args.length); got != tt.want {
+				t.Errorf("TruncateWebString() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

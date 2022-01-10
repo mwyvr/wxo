@@ -1,6 +1,9 @@
 package wxo
 
-import "strings"
+import (
+	"strings"
+	"unicode/utf8"
+)
 
 // Open Weather related
 
@@ -61,6 +64,26 @@ func GetUnits(uom string) units {
 		v = unitsMap["error"]
 	}
 	return v
+}
+
+// TruncateWebString returns string with length specificed, truncated with
+// multibyte runes taken into account.
+func TruncateWebString(s string, length int) string {
+	count := 0
+	result := ""
+	if len(s) <= length {
+		return s
+	}
+	for len(s) > 0 {
+		r, size := utf8.DecodeRuneInString(s)
+		s = s[size:]
+		count = count + 1
+		result = result + string(r)
+		if count >= length {
+			break
+		}
+	}
+	return result
 }
 
 // Currently not used
