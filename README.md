@@ -3,23 +3,30 @@ Command line weather grabber
 
 `wxo` provides a command line utility for retrieving "real-time-ish" current
 weather conditions for a given geography, formatting the results in a manner
-suitable for use in minimalist window manager status bars like `dwm`. Example
-output for Vancouver today:
-
-    Overcast Clouds 2.5C ↖NNW 3.2km/h
-
-If a weather alert exists, such as this spot in Ontario:
-
-    !Extreme Cold! Clear Sky -27.9C ↖WNW 29.6km/h
-
-There can be zero or more weather alerts; currently the tool simply
-concatenates them. Here's an example from today for the Landes region in France
-at -lat 44.050505 -long -0.893669:
-
-    !Moderate Coastalevent Warning/Extreme Flooding Warning! Overcast Clouds 12.5C ↖NW 15.8km/h
+suitable for use in minimalist window manager status bars like `dwm`. All output
+is text, there are no icons or colours to make your minimalist life cluttered.
 
 Results are cached and expire in 5 minutes; this to avoid overwhelming weather
 data providers and to remain within usage limits.
+
+Example output for Vancouver (BC, Canada) today:
+
+    Overcast Clouds 2.5C ↖NNW 3.2km/h
+
+If a weather alert exists, such as this spot in Ontario, Canada:
+
+    !Extreme Cold! Clear Sky -27.9C ↖WNW 29.6km/h
+
+Or flooding in that other Vancouver, in WA:
+
+    !Flood Advisory! Overcast Clouds 40.3F ←W 3.6mph
+
+At any given point a report will contain zero or more of these weather alerts;
+the tool concatenates and truncates them if necessary. Here's a truncated
+example for the Landes region in France at -lat 44.050505 -long -0.893669:
+
+    !Moderate Rain-Flood Warning/Moderate Coa...! Overcast Clouds 10.5C ↗ENE 5.3km/h
+
 
 ## Installation & Usage
 
@@ -69,6 +76,11 @@ excerpt from my [goblocks](https://github.com/Stargarth/Goblocks) config file:
         ...
     ]
 
+Incidentally, I have a hot-key defined to issue a shell command `kill -36
+$(pidof goblocks)`, causing `goblocks` to run my weather "block" and update my
+weather status line, subject to the caching built (by default 5 minutes) into
+`wxo`.
+
 Also looked at:
 
 * [wttr.in](https://wttr.in/) often used for for status bar updates via `curl`,
@@ -83,4 +95,3 @@ Also looked at:
 While looking for weather APIs I stumbled across this detailed evaluation:
 
 See: https://www.sigmdel.ca/michel/program/fpl/yweather/weather_api_en.html
-
