@@ -9,6 +9,27 @@ is text, there are no icons or colours to make your minimalist life cluttered.
 Results are cached and expire in 5 minutes; this to avoid overwhelming weather
 data providers and to remain within usage limits.
 
+## Installation & Usage
+
+Get the latest:
+
+    go install github.com/solutionroute/wxo/cmd/wxo@latest
+
+Using `wxo` requires a free account and API key from
+[OpenWeathermap.org](https://openweathermap.org/) (OWM).  You *must* provide the
+WXO_APIKEY environment variable, either on the command line, or as part of your
+permanent environment. Example:
+
+    $ WXO_APIKEY=yoursecretkey wxo -lat 49.123 -long -123.78
+
+_Note: OWM informs new subscribers there may be delay (measured in minutes)
+until the new account's API keys are usable._
+
+**Coming soon**: 
+
+* user configurable templates; you can use the output for other purposes.
+* override cache timeout (5 minutes); -force option
+
 Example output for Vancouver (BC, Canada) today:
 
     Overcast Clouds 2.5C ↖NNW 3.2km/h
@@ -37,27 +58,6 @@ language with the `-lang xx` flag.
 
 As you can see, alert text is not internationalized by the provider.
 
-## Installation & Usage
-
-Get the latest:
-
-    go install github.com/solutionroute/wxo/cmd/wxo@latest
-
-Using `wxo` requires a free account and API key from
-[OpenWeathermap.org](https://openweathermap.org/) (OWM).  You *must* provide the
-WXO_APIKEY environment variable, either on the command line, or as part of your
-permanent environment. Example:
-
-    $ WXO_APIKEY=yoursecretkey wxo -lat 49.123 -long -123.78
-
-_Note: OWM informs new subscribers there may be delay (measured in minutes)
-until the new account's API keys are usable._
-
-**Coming soon**: 
-
-* user configurable templates; you can use the output for other purposes.
-* override cache timeout (5 minutes); -force option
-
 ## Current Data Sources 
 
 It's my intent to add more options for weather data; an Environment Canada
@@ -84,22 +84,13 @@ excerpt from my [goblocks](https://github.com/Stargarth/Goblocks) config file:
         ...
     ]
 
-Incidentally, I have a hot-key defined to issue a shell command `kill -36
-$(pidof goblocks)`, causing `goblocks` to run my weather "block" and update my
-weather status line, subject to the caching built (by default 5 minutes) into
-`wxo`.
+A hot-key defined to issue a shell command `kill -36 $(pidof goblocks)`, causes
+`goblocks` to run the weather "block" and update the weather status line,
+subject to the default cache expiry (5 minutes).
 
 Also looked at:
 
 * [wttr.in](https://wttr.in/) often used for for status bar updates via `curl`,
   but I found it often returned incorrect or wildly out of date information for
   my area, in addition to lacking weather alert data.
-* Once an hour updates from Environment Canada were not cutting it, but I do
-  appreciate their alerts & warnings. Writing the client for Open Weather Map
-  (JSON data) was easy in comparison with dealing with EC's XML feed.
-
-## Further Reading
-
-While looking for weather APIs I stumbled across this detailed evaluation:
-
-See: https://www.sigmdel.ca/michel/program/fpl/yweather/weather_api_en.html
+* Once an hour updates from Environment Canada were not cutting it. I'll add a client for EC here in time.
