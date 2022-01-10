@@ -1,6 +1,6 @@
 package owm
 
-// Package own provides a client for openweathermap.org's "one call" API
+// Package owm provides a client for openweathermap.org's "one call" API
 
 import (
 	"encoding/json"
