@@ -69,7 +69,7 @@ func (c *OpenWeatherMapClient) makeSiteData(r oneCallResponse) (*wxo.SiteData, e
 	if err != nil {
 		tz = time.FixedZone("Local", sd.TimezoneOffset)
 	}
-	// Observation timestamp
+	// This is when the web request was issued, not an observation timestamp - kinda useless.
 	sd.Timestamp = time.Unix(int64(r.Current.Dt), 0).In(tz)
 
 	// Conditions are text summaries "Windy", "Light Rain"

@@ -1,13 +1,14 @@
 # wxo
-Command line weather grabber
+`wxo` is primarily a command line utility for retrieving "real-time-ish" current
+weather conditions for a given location.
 
-`wxo` provides a command line utility for retrieving "real-time-ish" current
-weather conditions for a given geography, formatting the results in a manner
-suitable for use in minimalist window manager status bars like `dwm`. All output
-is text, there are no icons or colours to make your minimalist life cluttered.
+The default output to `stdout` is formatted for use in minimalist window manager
+status bars such as [dwmblocks][3] or [Goblocks][4] on [dwm][1]. All output is
+text (UTF-8 text); there are no icons or colours to make your minimalist life
+cluttered.
 
-Results are cached and expire in 5 minutes; this to avoid overwhelming weather
-data providers and to remain within usage limits.
+Results are cached and expire by default in 5-10 minutes; expiry depends on the
+wx data provider's daily usage limits.
 
 ## Installation & Usage
 
@@ -15,9 +16,7 @@ Get the latest:
 
     go install github.com/solutionroute/wxo/cmd/wxo@latest
 
-Using `wxo` requires a free account and API key from
-[OpenWeathermap.org](https://openweathermap.org/) (OWM); other weather providers
-_may_ follow.  
+Using `wxo` with [OpenWeathermap.org][4] requires a free account and API key.
 
 Run `wxo` for a usage screen. Note: You *must* provide the WXO_APIKEY environment
 variable, either on the command line, or as part of your permanent environment.
@@ -25,14 +24,14 @@ Example:
 
     $ WXO_APIKEY=yoursecretkey wxo -lat 49.123 -long -123.78
 
-![in use on dwm with goblocks](https://raw.githubusercontent.com/solutionroute/wxo/main/doc/20220110-151745.png)
-_In use on `dwm` with goblocks_
+![in use on dwm with Goblocks](https://raw.githubusercontent.com/solutionroute/wxo/main/doc/20220110-151745.png)
+_[My dwm config][2] feeding wxo output to [Goblocks][3] status bar_
 
 Example output without a weather alert:
 
     Overcast Clouds 2.5C ↖NNW 3.2km/h
 
-Some weather alert types have more meaning:
+Some weather alerts:
 
     !Extreme Cold! Clear Sky -27.9C ↖WNW 29.6km/h
     !Flood Advisory! Overcast Clouds 40.3F ←W 3.6mph
@@ -41,7 +40,7 @@ Multiple alerts are concatenated and may be truncated (`...`):
 
     !Moderate Rain-Flood Warning/Moderate Coa...! Overcast Clouds 10.5C ↗ENE 5.3km/h
 
-Some limited internationalization is available, weather data provider dependent:
+Limited internationalization is available and is weather data provider dependent. Alert text may not be available in other languages.
 
     # Vielha, Spain
     #  wxo -lat 42.701287 -long 0.793591
@@ -49,28 +48,27 @@ Some limited internationalization is available, weather data provider dependent:
     #  wxo -lat 42.701287 -long 0.793591 -lang es
     es: !Moderate Wind Warning/Moderate Avalanche...! Nubes 4.7C ↑N 12.3km
 
-**Coming soon**: 
+### As a library
 
-* user configurable output templates
-* override cache timeout (5 minutes); -force option
-* another data provider, or two
+While it wasn't written for the purpose, the package could be used as a library
+for accessing various weather data sources. The wxo cmd `main.go` provides an
+example:
 
-As you can see, alert text is not internationalized by the provider.
+    client := owm.NewWeatherClient(apiKey, latitude, longitude, units, lang)
+	wx, err := client.Fetch() // returns a SiteData object
 
-## Current Data Sources 
+### Weather Sources
 
-It's my intent to add more options for weather data; an Environment Canada
-module will be provided soon. Currently `wxo` supports:
+Currently `wxo` supports:
 
-* [OpenWeathermap.org](https://openweathermap.org/) via "One Call" API; you'll
-  need a free API key. The free tier provides 1,000 "One Call" requests a day.
+* [OpenWeathermap.org][5] via their "One Call" API; you'll need a free API key.
+  The free tier provides 1,000 "One Call" requests a day.
 
 ## Motivation
 
 As a distance runner, weather is important to me! As a weather geek, I don't
 need an excuse. I want to see seeing current temp, winds, and alerts on my `dwm`
-status bar; here's a relevant excerpt from my
-[goblocks](https://github.com/Stargarth/Goblocks) config file:
+status bar; here's a relevant excerpt from my [Goblocks][3] config file:
 
     "actions":
     [
@@ -84,12 +82,29 @@ status bar; here's a relevant excerpt from my
         ...
     ]
 
-A hot-key defined to issue a shell command `kill -36 $(pidof goblocks)`, causes
+A hot-key issuing a shell command `kill -36 $(pidof goblocks)`, causes
 `goblocks` to run the weather "block" and update the weather status line,
 subject to the default cache expiry (5 minutes).
 
-## Other Solutions
+**Other Solutions**:
 
 * [wttr.in](https://wttr.in/) is used by many for status bar updates via `curl`,
   but I found the data returned was often partially incorrect (wind info in
   particular) or quite out of date, in addition to lacking weather alert data.
+
+## TODO
+
+`wxo` was born on January 8th, 2022, and will continue to evolve with a few more
+features--in rough order of priority:
+
+* ~~Cache output~~
+* Specify cache expiry, subject to weather data provider daily limits
+* Custom output templates
+* Other weather data providers
+
+
+[1]: <https://dwm.suckless.org/>
+[2]: <https://github.com/solutionroute/suckless> "My dwm config and other patches"
+[3]: <https://github.com/Stargarth/Goblocks>
+[4]: <https://github.com/torrinfail/dwmblocks>
+[5]: <https://openweathermap.org/> 
