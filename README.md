@@ -24,7 +24,7 @@ Example:
 
     $ WXO_APIKEY=yoursecretkey wxo -lat 49.123 -long -123.78
 
-![in use on dwm with Goblocks](https://raw.githubusercontent.com/solutionroute/wxo/main/doc/20220110-151745.png)
+![in use on dwm with Goblocks](https://raw.githubusercontent.com/solutionroute/wxo/main/doc/20220122-212612.png)
 _[My dwm config][2] feeding wxo output to [Goblocks][3] status bar_
 
 Example output without a weather alert:
